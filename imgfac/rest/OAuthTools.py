@@ -22,12 +22,6 @@ log = logging.getLogger(__name__)
 
 oauth_server = oauth.Server(signature_methods={'HMAC-SHA1':oauth.SignatureMethod_HMAC_SHA1()})
 
-class Consumer(object):
-    def __init__(self, key):
-        consumers = ApplicationConfiguration().configuration['clients']
-        self.key = key
-        self.secret = consumers.get(key) if consumers else None
-
 def validate_two_leg_oauth():
     try:
         auth_header_key = 'Authorization'
@@ -51,12 +45,3 @@ def validate_two_leg_oauth():
     except Exception as e:
         log.exception('Returning HTTP 500 (OAuth validation failed) on exception: %s' % e)
         raise HTTPResponse(status=500, output='OAuth validation failed: %s' % e)
-
-def oauth_protect(f):
-    def decorated_function(*args, **kwargs):
-        if(not ApplicationConfiguration().configuration['no_oauth']):
-            validate_two_leg_oauth()
-        return f(*args, **kwargs)
-    decorated_function.__name__ = f.__name__
-    return decorated_function
-

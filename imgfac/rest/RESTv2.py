@@ -20,7 +20,7 @@ import logging
 import os.path
 from bottle import *
 from imgfac.rest.RESTtools import *
-from imgfac.rest.OAuthTools import oauth_protect
+from imgfac.rest.AuthTools import auth_protect
 from imgfac.BuildDispatcher import BuildDispatcher
 from imgfac.PluginManager import PluginManager
 from imgfac.PersistentImageManager import PersistentImageManager
@@ -50,7 +50,7 @@ def api_info():
 @rest_api.get('/imagefactory/base_images/<base_image_id>/<image_collection>')
 @rest_api.get('/imagefactory/target_images/<target_image_id>/<image_collection>')
 @log_request
-@oauth_protect
+@auth_protect
 @check_accept_header
 def list_images(image_collection, base_image_id=None, target_image_id=None, list_url=None):
     try:
@@ -89,7 +89,7 @@ def list_images(image_collection, base_image_id=None, target_image_id=None, list
 @rest_api.post('/imagefactory/base_images/<base_image_id>/target_images/<target_image_id>/<image_collection>')
 @rest_api.post('/imagefactory/target_images/<target_image_id>/<image_collection>')
 @log_request
-@oauth_protect
+@auth_protect
 @check_accept_header
 def create_image(image_collection, base_image_id=None, target_image_id=None):
     try:
@@ -152,7 +152,7 @@ def create_image(image_collection, base_image_id=None, target_image_id=None):
 @rest_api.get('/imagefactory/base_images/<base_image_id>/target_images/<target_image_id>/provider_images/<image_id>')
 @rest_api.get('/imagefactory/target_images/<target_image_id>/provider_images/<image_id>')
 @log_request
-@oauth_protect
+@auth_protect
 @check_accept_header
 def image_with_id(image_id, base_image_id=None, target_image_id=None, provider_image_id=None):
     try:
@@ -212,7 +212,7 @@ def image_with_id(image_id, base_image_id=None, target_image_id=None, provider_i
 @rest_api.get('/imagefactory/base_images/<base_image_id>/target_images/<target_image_id>/provider_images/<image_id>/raw_image')
 @rest_api.get('/imagefactory/target_images/<target_image_id>/provider_images/<image_id>/raw_image')
 @log_request
-@oauth_protect
+@auth_protect
 @check_accept_header
 def get_image_file(image_id, base_image_id=None, target_image_id=None, provider_image_id=None):
     try:
@@ -232,7 +232,7 @@ def get_image_file(image_id, base_image_id=None, target_image_id=None, provider_
 @rest_api.delete('/imagefactory/base_images/<base_image_id>/target_images/<target_image_id>/provider_images/<image_id>')
 @rest_api.delete('/imagefactory/target_images/<target_image_id>/provider_images/<image_id>')
 @log_request
-@oauth_protect
+@auth_protect
 @check_accept_header
 def delete_image_with_id(image_id, base_image_id=None, target_image_id=None, provider_image_id=None):
     try:
@@ -258,7 +258,7 @@ def delete_image_with_id(image_id, base_image_id=None, target_image_id=None, pro
 @rest_api.get('/imagefactory/plugins/')
 @rest_api.get('/imagefactory/plugins/<plugin_id>')
 @log_request
-@oauth_protect
+@auth_protect
 @check_accept_header
 def get_plugins(plugin_id=None):
     try:
